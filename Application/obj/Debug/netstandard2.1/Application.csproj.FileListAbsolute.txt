@@ -1,0 +1,13 @@
+C:\Users\Diyar Faraj\Robotia\Application\bin\Debug\netstandard2.1\Application.deps.json
+C:\Users\Diyar Faraj\Robotia\Application\bin\Debug\netstandard2.1\Application.dll
+C:\Users\Diyar Faraj\Robotia\Application\bin\Debug\netstandard2.1\Application.pdb
+C:\Users\Diyar Faraj\Robotia\Application\bin\Debug\netstandard2.1\Domain.dll
+C:\Users\Diyar Faraj\Robotia\Application\bin\Debug\netstandard2.1\Persistence.dll
+C:\Users\Diyar Faraj\Robotia\Application\bin\Debug\netstandard2.1\Domain.pdb
+C:\Users\Diyar Faraj\Robotia\Application\bin\Debug\netstandard2.1\Persistence.pdb
+C:\Users\Diyar Faraj\Robotia\Application\obj\Debug\netstandard2.1\Application.csprojAssemblyReference.cache
+C:\Users\Diyar Faraj\Robotia\Application\obj\Debug\netstandard2.1\Application.AssemblyInfoInputs.cache
+C:\Users\Diyar Faraj\Robotia\Application\obj\Debug\netstandard2.1\Application.AssemblyInfo.cs
+C:\Users\Diyar Faraj\Robotia\Application\obj\Debug\netstandard2.1\Application.csproj.CopyComplete
+C:\Users\Diyar Faraj\Robotia\Application\obj\Debug\netstandard2.1\Application.dll
+C:\Users\Diyar Faraj\Robotia\Application\obj\Debug\netstandard2.1\Application.pdb
