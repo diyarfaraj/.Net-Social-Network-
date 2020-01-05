@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Persistence;
 
 namespace DatingApp.API.Controllers
 {
@@ -10,11 +12,20 @@ namespace DatingApp.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        
+        private readonly DataContext _context;
+
+        public ValuesController(DataContext context)
+        {
+            _context = context;
+            
+        }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Value>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var values = _context.Values.ToList();
+            return Ok(values);  
         }
 
         // GET api/values/5
