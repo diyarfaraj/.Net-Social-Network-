@@ -30,7 +30,7 @@ namespace API
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError("An error occured during migraticiones", ex);
+                    logger.LogError("An error occured during migraciones", ex);
                 }
             }
 
