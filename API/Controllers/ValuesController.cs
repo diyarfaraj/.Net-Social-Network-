@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace DatingApp.API.Controllers
@@ -22,17 +23,18 @@ namespace DatingApp.API.Controllers
         }
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<Value>> Get()
+        public async Task< ActionResult<IEnumerable<Value>>> Get()
         {
-            var values = _context.Values.ToList();
+            var values = await _context.Values.ToListAsync();
             return Ok(values);  
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task< ActionResult<Value>> Get(int id)
         {
-            return "value";
+            var value = await _context.Values.FindAsync(id);
+            return Ok(value);
         }
 
         // POST api/values
