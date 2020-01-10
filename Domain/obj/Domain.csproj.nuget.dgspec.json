@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj": {}
+    "c:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj": {
+    "c:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj",
+        "projectUniqueName": "c:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj",
+        "projectPath": "c:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\Diyar Faraj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Diyar Faraj\\Robotia\\Domain\\obj\\",
+        "outputPath": "c:\\Users\\Diyar Faraj\\Robotia\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
