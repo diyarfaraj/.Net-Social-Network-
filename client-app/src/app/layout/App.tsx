@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Header, Icon, List } from 'semantic-ui-react';
 import { IActivity } from './../models/activity';
+import { NavBar } from './../../features/nav/NavBar';
 
 const App = () => {
 	//Hooks
@@ -15,10 +16,7 @@ const App = () => {
 
 	return (
 		<div>
-			<Header as="h2">
-				<Icon name="users" />
-				<Header.Content>Robotia</Header.Content>
-			</Header>
+			<NavBar />
 
 			<List>{activities.map((activities) => <List.Item key={activities.id}>{activities.title}</List.Item>)}</List>
 
