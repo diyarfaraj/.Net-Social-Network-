@@ -6,7 +6,7 @@ export const NavBar = () => {
 		<Menu fixed="top" inverted>
 			<Container>
 				<Menu.Item header>
-					<img src="/client-app/public/assets/logo.png" alt="" />
+					<img src="./assets/logo.png" alt="" style={{ marginRight: '10px' }} />
 					Robotia
 				</Menu.Item>
 				<Menu.Item>
