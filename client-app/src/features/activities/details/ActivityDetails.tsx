@@ -3,20 +3,20 @@ import { Card, Icon, Image, Button, Label } from 'semantic-ui-react';
 
 export const ActivityDetails = () => {
 	return (
-		<Card>
-			<Image src="/images/avatar/large/matthew.png" wrapped ui={false} />
+		<Card fluid>
+			<Image src="/assets/placeholder.png" wrapped ui={false} />
 			<Card.Content>
-				<Card.Header>Matthew</Card.Header>
+				<Card.Header>Title</Card.Header>
 				<Card.Meta>
-					<span className="date">Joined in 2015</span>
+					<span>Date</span>
 				</Card.Meta>
-				<Card.Description>Matthew is a musician living in Nashville.</Card.Description>
+				<Card.Description>Description</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
-				<a>
-					<Icon name="user" />
-					22 Friends
-				</a>
+				<Button.Group widths={2}>
+					<Button basic color={'blue'} content="Edit" />
+					<Button basic color={'grey'} content="Cancel" />
+				</Button.Group>
 			</Card.Content>
 		</Card>
 	);
