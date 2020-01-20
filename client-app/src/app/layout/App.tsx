@@ -9,6 +9,7 @@ const App = () => {
 	//Hooks
 	const [ activities, setActivities ] = useState<IActivity[]>([]);
 	const [ selectedActivity, setSelectedActivity ] = useState<IActivity | null>(null);
+	const [ editMode, setEditMode ] = useState(false);
 
 	//In order to select individual activity
 	const handleSelectActivity = (id: string) => {
@@ -29,6 +30,8 @@ const App = () => {
 					activities={activities}
 					selectActivity={handleSelectActivity}
 					selectedActivity={selectedActivity}
+					editMode={editMode}
+					setEditMode={setEditMode}
 				/>
 			</Container>
 		</Fragment>
