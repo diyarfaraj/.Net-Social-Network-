@@ -9,17 +9,19 @@ interface IProps {
 
 export const ActivityForm: React.FC<IProps> = ({ setEditMode, activity: initialFormState }) => {
 	const initializeForm = () => {
-		initialFormState
-			? initialFormState
-			: {
-					id: '',
-					title: '',
-					category: '',
-					description: '',
-					date: '',
-					city: '',
-					venue: ''
-				};
+		if (initialFormState) {
+			return initialFormState;
+		} else {
+			return {
+				id: '',
+				title: '',
+				category: '',
+				description: '',
+				date: '',
+				city: '',
+				venue: ''
+			};
+		}
 	};
 
 	const [ activity, setActivity ] = useState<IActivity>(initializeForm);
