@@ -36,7 +36,7 @@ const App = () => {
 	};
 
 	const handleDeleteActivity = (id: string) => {
-		setActivities([ ...activities.filter((a) => a.id === id) ]);
+		setActivities([ ...activities.filter((a) => a.id !== id) ]);
 	};
 
 	useEffect(() => {
@@ -63,6 +63,7 @@ const App = () => {
 					setSelectedActivity={setSelectedActivity}
 					createActivity={handleCreateActivity}
 					editActivity={handleEditActivity}
+					deleteActivity={handleDeleteActivity}
 				/>
 			</Container>
 		</Fragment>
