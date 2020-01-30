@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, SyntheticEvent } from 'react';
 import { Container } from 'semantic-ui-react';
 import { IActivity } from './../models/activity';
 import { NavBar } from './../../features/nav/NavBar';
@@ -14,6 +14,7 @@ const App = () => {
 	const [ editMode, setEditMode ] = useState(false);
 	const [ loading, setLoading ] = useState(true);
 	const [ submitting, setSubmitting ] = useState(false);
+	const [ target, setTarget ] = useState('');
 
 	//In order to select individual activity
 	const handleSelectActivity = (id: string) => {
@@ -52,9 +53,9 @@ const App = () => {
 			.then(() => setSubmitting(false));
 	};
 
-	const handleDeleteActivity = (id: string) => {
+	const handleDeleteActivity = (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
 		setSubmitting(true);
-
+		setTarget(event.currentTarget.name);
 		agent.Activities
 			.delete(id)
 			.then(() => {
@@ -93,6 +94,7 @@ const App = () => {
 					editActivity={handleEditActivity}
 					deleteActivity={handleDeleteActivity}
 					submitting={submitting}
+					target={target}
 				/>
 			</Container>
 		</Fragment>
