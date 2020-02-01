@@ -5,12 +5,13 @@ import { ActivityList } from './ActivityList';
 import { ActivityDetails } from './../details/ActivityDetails';
 import { ActivityForm } from './../form/ActivityForm';
 import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
+import ActivityStore from '../../../app/stores/activityStore';
 
 interface IProps {
 	activities: IActivity[];
 	selectActivity: (id: string) => void;
-	selectedActivity: IActivity | null;
-	editMode: boolean;
+
 	setEditMode: (editMode: boolean) => void;
 	setSelectedActivity: (activity: IActivity | null) => void;
 	createActivity: (activity: IActivity) => void;
@@ -23,8 +24,6 @@ interface IProps {
 export const ActivityDashboard: React.FC<IProps> = ({
 	activities,
 	selectActivity,
-	selectedActivity,
-	editMode,
 	setEditMode,
 	setSelectedActivity,
 	createActivity,
@@ -33,28 +32,18 @@ export const ActivityDashboard: React.FC<IProps> = ({
 	submitting,
 	target
 }) => {
+	const activityStore = useContext(ActivityStore);
+	const { editMode, selectedActivity } = activityStore;
 	return (
 		<Grid>
 			<Grid.Column width={10}>
 				<List>
-					<ActivityList
-						activities={activities}
-						selectActivity={selectActivity}
-						deleteActivity={deleteActivity}
-						submitting={submitting}
-						target={target}
-					/>
+					<ActivityList deleteActivity={deleteActivity} submitting={submitting} target={target} />
 				</List>
 			</Grid.Column>
 			<Grid.Column width={6}>
 				{selectedActivity &&
-				!editMode && (
-					<ActivityDetails
-						activity={selectedActivity}
-						setEditMode={setEditMode}
-						setSelectedActivity={setSelectedActivity}
-					/>
-				)}
+				!editMode && <ActivityDetails setEditMode={setEditMode} setSelectedActivity={setSelectedActivity} />}
 				{editMode && (
 					<ActivityForm
 						key={(selectedActivity && selectedActivity.id) || 0}

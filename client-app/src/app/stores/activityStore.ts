@@ -3,9 +3,11 @@ import { createContext } from 'react';
 import { IActivity } from '../models/activity';
 import agent from '../api/agent';
 
-class ActivityStore {
+export class ActivityStore {
 	@observable activities: IActivity[] = [];
 	@observable loadingInitial = false;
+	@observable selectedActivity: IActivity | undefined;
+	@observable editMode = false;
 
 	@action
 	loadActivities = () => {
@@ -19,6 +21,12 @@ class ActivityStore {
 				});
 			})
 			.finally(() => (this.loadingInitial = false));
+	};
+
+	@action
+	selectActivity = (id: string) => {
+		this.selectedActivity = this.activities.find((a) => a.id === id);
+		this.editMode = false;
 	};
 }
 
