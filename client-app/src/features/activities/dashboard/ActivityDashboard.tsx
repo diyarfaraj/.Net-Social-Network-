@@ -20,7 +20,7 @@ interface IProps {
 	target: string;
 }
 
-const ActivityDashboard: React.FC<IProps> = ({
+export const ActivityDashboard: React.FC<IProps> = ({
 	activities,
 	selectActivity,
 	selectedActivity,

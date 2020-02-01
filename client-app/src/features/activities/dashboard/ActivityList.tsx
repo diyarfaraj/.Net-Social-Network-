@@ -2,7 +2,6 @@ import React, { SyntheticEvent } from 'react';
 import { Item, Button, Label, Segment } from 'semantic-ui-react';
 import { IActivity } from './../../../app/models/activity';
 import { observer } from 'mobx-react-lite';
-import { ActivityList } from './ActivityList';
 
 interface IProps {
 	activities: IActivity[];
@@ -12,7 +11,7 @@ interface IProps {
 	target: string;
 }
 
-const ActivityList: React.FC<IProps> = ({ activities, selectActivity, deleteActivity, submitting, target }) => {
+export const ActivityList: React.FC<IProps> = ({ activities, selectActivity, deleteActivity, submitting, target }) => {
 	return (
 		<Segment clearing>
 			<Item.Group divided>
