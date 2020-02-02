@@ -4,8 +4,8 @@ import { IActivity } from './../models/activity';
 import { NavBar } from './../../features/nav/NavBar';
 import agent from '../api/agent';
 
-import { ActivityDashboard } from './../../features/activities/dashboard/ActivityDashboard';
-import { LoadingComponent } from './LoadingComponent';
+import ActivityDashboard from './../../features/activities/dashboard/ActivityDashboard';
+import LoadingComponent from './LoadingComponent';
 import ActivityStore from '../stores/activityStore';
 import { observer } from 'mobx-react-lite';
 

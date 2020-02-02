@@ -1,8 +1,7 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useContext } from 'react';
 import { Item, Button, Label, Segment } from 'semantic-ui-react';
 import { IActivity } from './../../../app/models/activity';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
 import ActivityStore from '../../../app/stores/activityStore';
 
 interface IProps {
@@ -11,7 +10,7 @@ interface IProps {
 	target: string;
 }
 
-export const ActivityList: React.FC<IProps> = ({ deleteActivity, submitting, target }) => {
+const ActivityList: React.FC<IProps> = ({ deleteActivity, submitting, target }) => {
 	const activityStore = useContext(ActivityStore);
 	const { activities, selectActivity } = activityStore;
 	return (

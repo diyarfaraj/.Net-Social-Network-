@@ -1,17 +1,15 @@
-import React, { SyntheticEvent } from 'react';
+import React, { SyntheticEvent, useContext } from 'react';
 import { Grid, List } from 'semantic-ui-react';
 import { IActivity } from './../../../app/models/activity';
-import { ActivityList } from './ActivityList';
-import { ActivityDetails } from './../details/ActivityDetails';
-import { ActivityForm } from './../form/ActivityForm';
+import ActivityList from './ActivityList';
+import ActivityDetails from './../details/ActivityDetails';
+import ActivityForm from './../form/ActivityForm';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
 import ActivityStore from '../../../app/stores/activityStore';
 
 interface IProps {
 	activities: IActivity[];
 	selectActivity: (id: string) => void;
-
 	setEditMode: (editMode: boolean) => void;
 	setSelectedActivity: (activity: IActivity | null) => void;
 	createActivity: (activity: IActivity) => void;
@@ -21,7 +19,7 @@ interface IProps {
 	target: string;
 }
 
-export const ActivityDashboard: React.FC<IProps> = ({
+const ActivityDashboard: React.FC<IProps> = ({
 	activities,
 	selectActivity,
 	setEditMode,
