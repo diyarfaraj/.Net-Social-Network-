@@ -10,17 +10,19 @@ export class ActivityStore {
 	@observable editMode = false;
 
 	@action
-	loadActivities = () => {
+	loadActivities = async () => {
 		this.loadingInitial = true;
-		agent.Activities
-			.list()
-			.then((activities) => {
-				activities.forEach((activity) => {
-					activity.date = activity.date.split('.')[0];
-					this.activities.push(activity);
-				});
-			})
-			.finally(() => (this.loadingInitial = false));
+		try {
+			const activities = await agent.Activities.list();
+			activities.forEach((activity) => {
+				activity.date = activity.date.split('.')[0];
+				this.activities.push(activity);
+			});
+			this.loadingInitial = false;
+		} catch (e) {
+			console.log(e, 'ERROr loading activitiess');
+			this.loadingInitial = false;
+		}
 	};
 
 	@action
