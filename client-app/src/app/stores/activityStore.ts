@@ -8,6 +8,7 @@ export class ActivityStore {
 	@observable loadingInitial = false;
 	@observable selectedActivity: IActivity | undefined;
 	@observable editMode = false;
+	@observable submitting = false;
 
 	@action
 	loadActivities = async () => {
@@ -23,6 +24,26 @@ export class ActivityStore {
 			console.log(e, 'ERROr loading activitiess');
 			this.loadingInitial = false;
 		}
+	};
+
+	@action
+	createActivity = async (activity: IActivity) => {
+		this.submitting = true;
+		try {
+			await agent.Activities.create(activity);
+			this.activities.push(activity);
+			this.editMode = false;
+			this.submitting = false;
+		} catch (error) {
+			console.log(error, 'ERROr creating activitiess');
+			this.submitting = false;
+		}
+	};
+
+	@action
+	openCreateForm = () => {
+		this.editMode = true;
+		this.selectedActivity = undefined;
 	};
 
 	@action
