@@ -5,15 +5,12 @@ import { v4 as uuid } from 'uuid';
 import ActivityStore from '../../../app/stores/activityStore';
 
 interface IProps {
-	setEditMode: (editMode: boolean) => void;
 	activity: IActivity;
-	editActivity: (activity: IActivity) => void;
-	submitting: boolean;
 }
 
-const ActivityForm: React.FC<IProps> = ({ setEditMode, activity: initialFormState, editActivity, submitting }) => {
+const ActivityForm: React.FC<IProps> = ({ activity: initialFormState }) => {
 	const activityStore = useContext(ActivityStore);
-	const { createActivity } = activityStore;
+	const { createActivity, editActivity, submitting, cancelFormOpen } = activityStore;
 	const initializeForm = () => {
 		if (initialFormState) {
 			return initialFormState;
@@ -44,7 +41,6 @@ const ActivityForm: React.FC<IProps> = ({ setEditMode, activity: initialFormStat
 			};
 
 			createActivity(newActivity);
-			setEditMode(false);
 		} else {
 			editActivity(activity);
 		}
@@ -75,7 +71,7 @@ const ActivityForm: React.FC<IProps> = ({ setEditMode, activity: initialFormStat
 				/>
 				<Form.Input onChange={handleInputChange} name="city" placeholder="City" value={activity.city} />
 				<Form.Input onChange={handleInputChange} name="venue" placeholder="Venue" value={activity.venue} />
-				<Button onClick={() => setEditMode(false)} type="button" floated="right" content="Cancel" />
+				<Button onClick={cancelFormOpen} type="button" floated="right" content="Cancel" />
 				<Button loading={submitting} content="Submit" floated="right" positive type="submit" />
 			</Form>
 		</Segment>
