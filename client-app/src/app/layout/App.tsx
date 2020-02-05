@@ -1,8 +1,6 @@
-import React, { useState, useEffect, Fragment, SyntheticEvent, useContext } from 'react';
+import React, { useEffect, Fragment, useContext } from 'react';
 import { Container } from 'semantic-ui-react';
-import { IActivity } from './../models/activity';
 import NavBar from './../../features/nav/NavBar';
-import agent from '../api/agent';
 import ActivityDashboard from './../../features/activities/dashboard/ActivityDashboard';
 import LoadingComponent from './LoadingComponent';
 import ActivityStore from '../stores/activityStore';
@@ -12,12 +10,6 @@ const App = () => {
 	//mobx
 	const activityStore = useContext(ActivityStore);
 	//Hooks
-	const [ activities, setActivities ] = useState<IActivity[]>([]);
-	const [ selectedActivity, setSelectedActivity ] = useState<IActivity | null>(null);
-	const [ editMode, setEditMode ] = useState(false);
-	const [ loading, setLoading ] = useState(true);
-	const [ submitting, setSubmitting ] = useState(false);
-	const [ target, setTarget ] = useState('');
 
 	//In order to select individual activity
 
