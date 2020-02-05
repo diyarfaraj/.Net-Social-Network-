@@ -1,7 +1,9 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, configure, runInAction } from 'mobx';
 import { createContext, SyntheticEvent } from 'react';
 import { IActivity } from '../models/activity';
 import agent from '../api/agent';
+
+configure((enforceActions: 'always'));
 
 export class ActivityStore {
 	@observable activityRegistry = new Map();
@@ -22,13 +24,19 @@ export class ActivityStore {
 		this.loadingInitial = true;
 		try {
 			const activities = await agent.Activities.list();
-			activities.forEach((activity) => {
+			runInAction('loading activities ',() => {
+				activities.forEach((activity) => {
 				activity.date = activity.date.split('.')[0];
 				this.activityRegistry.set(activity.id, activity);
 			});
 			this.loadingInitial = false;
+			})
+			
 		} catch (e) {
+			runInAction('loading activities error',() => {
 			console.log(e, 'ERROr loading activitiess');
+
+			})
 			this.loadingInitial = false;
 		}
 	};
