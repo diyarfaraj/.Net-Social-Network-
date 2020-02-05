@@ -21,17 +21,6 @@ const App = () => {
 
 	//In order to select individual activity
 
-	const handleDeleteActivity = (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
-		setSubmitting(true);
-		setTarget(event.currentTarget.name);
-		agent.Activities
-			.delete(id)
-			.then(() => {
-				setActivities([ ...activities.filter((a) => a.id !== id) ]);
-			})
-			.then(() => setSubmitting(false));
-	};
-
 	useEffect(
 		() => {
 			activityStore.loadActivities();
@@ -44,7 +33,7 @@ const App = () => {
 		<Fragment>
 			<NavBar />
 			<Container style={{ marginTop: '7em' }}>
-				<ActivityDashboard deleteActivity={handleDeleteActivity} submitting={submitting} target={target} />
+				<ActivityDashboard />
 			</Container>
 		</Fragment>
 	);
