@@ -5,13 +5,15 @@ import ActivityDashboard from './../../features/activities/dashboard/ActivityDas
 import LoadingComponent from './LoadingComponent';
 import ActivityStore from '../stores/activityStore';
 import { observer } from 'mobx-react-lite';
+import {Route} from 'react-router-dom';
+import HomePage from '../../features/home/HomePage';
+import ActivityForm from '../../features/activities/form/ActivityForm'
 
 const App = () => {
 	//mobx
 	const activityStore = useContext(ActivityStore);
-	//Hooks
+	
 
-	//In order to select individual activity
 
 	useEffect(
 		() => {
@@ -25,7 +27,9 @@ const App = () => {
 		<Fragment>
 			<NavBar />
 			<Container style={{ marginTop: '7em' }}>
-				<ActivityDashboard />
+				<Route path='/' component={HomePage}/>
+				<Route path='/activities' component={ActivityDashboard}/>
+				<Route path='/createActivity' component={ActivityForm}/>
 			</Container>
 		</Fragment>
 	);
