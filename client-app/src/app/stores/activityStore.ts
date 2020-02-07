@@ -39,20 +39,25 @@ export class ActivityStore {
 		}
 	};
 
+	@action
 	loadSingleActivity = async (id: string) => {
 		let activity = this.getSingleActivity(id);
-		activity ? (this.activity = activity) : (this.loadingInitial = true);
-		try {
-			activity = await agent.Activiies.details(id);
-			runInAction('getting single activity', () => {
-				this.activity = activity;
-				this.loadingInitial = false;
-			});
-		} catch (error) {
-			runInAction('get single activity error', () => {
-				this.loadingInitial = false;
-			});
-			console.log('error loding single activity', error);
+		if (activity) {
+			this.activity = activity;
+		} else {
+			this.loadingInitial = true;
+			try {
+				activity = await agent.Activities.details(id);
+				runInAction('getting activity', () => {
+					this.activity = activity;
+					this.loadingInitial = false;
+				});
+			} catch (error) {
+				runInAction('get activity error', () => {
+					this.loadingInitial = false;
+				});
+				console.log(error);
+			}
 		}
 	};
 

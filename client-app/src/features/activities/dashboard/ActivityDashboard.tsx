@@ -12,13 +12,10 @@ const ActivityDashboard: React.FC = () => {
 	return (
 		<Grid>
 			<Grid.Column width={10}>
-				<List>
-					<ActivityList />
-				</List>
+				<ActivityList />
 			</Grid.Column>
 			<Grid.Column width={6}>
-				{activity && !editMode && <ActivityDetails />}
-				{editMode && <ActivityForm key={(activity && activity.id) || 0} activity={activity!} />}
+				<h1>Activity Filter</h1>
 			</Grid.Column>
 		</Grid>
 	);
