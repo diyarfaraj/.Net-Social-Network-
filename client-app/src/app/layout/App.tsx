@@ -10,7 +10,7 @@ import { Route, withRouter, RouteComponentProps } from 'react-router-dom';
 import HomePage from '../../features/home/HomePage';
 import ActivityForm from '../../features/activities/form/ActivityForm';
 
-const App = () => {
+const App: React.FC<RouteComponentProps> = ({ location }) => {
 	//mobx
 	const activityStore = useContext(ActivityStore);
 
@@ -28,7 +28,7 @@ const App = () => {
 			<Container style={{ marginTop: '7em' }}>
 				<Route exact path="/" component={HomePage} />
 				<Route exact path="/activities" component={ActivityDashboard} />
-				<Route path={[ '/createActivity', '/manage/:id' ]} component={ActivityForm} />
+				<Route key={location.key} path={[ '/createActivity', '/manage/:id' ]} component={ActivityForm} />
 				<Route path="/activities/:id" component={ActivityDetails} />
 			</Container>
 		</Fragment>
