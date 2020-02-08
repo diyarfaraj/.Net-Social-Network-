@@ -35,7 +35,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({ match, h
 			</Card.Content>
 			<Card.Content extra>
 				<Button.Group widths={2}>
-					<Button onClick={() => openEditForm(activity!.id)} basic color={'blue'} content="Edit" />
+					<Button as={Link} to={`/manage/${activity.id}`} basic color={'blue'} content="Edit" />
 					<Button onClick={() => history.push('/activities')} basic color={'grey'} content="Cancel" />
 				</Button.Group>
 			</Card.Content>
