@@ -7,10 +7,8 @@ configure({ enforceActions: 'always' });
 
 export class ActivityStore {
 	@observable activityRegistry = new Map();
-	@observable activities: IActivity[] = [];
 	@observable loadingInitial = false;
 	@observable activity: IActivity | null = null;
-	@observable editMode = false;
 	@observable submitting = false;
 	@observable target = '';
 
@@ -77,7 +75,6 @@ export class ActivityStore {
 			await agent.Activities.create(activity);
 			runInAction('creating activity', () => {
 				this.activityRegistry.set(activity.id, activity);
-				this.editMode = false;
 				this.submitting = false;
 			});
 		} catch (error) {
@@ -96,7 +93,6 @@ export class ActivityStore {
 			runInAction('edit activity', () => {
 				this.activityRegistry.set(activity.id, activity);
 				this.activity = activity;
-				this.editMode = false;
 				this.submitting = false;
 			});
 		} catch (error) {
@@ -126,34 +122,6 @@ export class ActivityStore {
 			});
 			console.log(error, 'ERROr deleteing activitiess');
 		}
-	};
-
-	@action
-	openCreateForm = () => {
-		this.editMode = true;
-		this.activity = null;
-	};
-
-	@action
-	openEditForm = (id: string) => {
-		this.editMode = true;
-		this.activity = this.activityRegistry.get(id);
-	};
-
-	@action
-	cancelSelectedActivity = () => {
-		this.activity = null;
-	};
-
-	@action
-	cancelFormOpen = () => {
-		this.editMode = false;
-	};
-
-	@action
-	selectActivity = (id: string) => {
-		this.activity = this.activityRegistry.get(id);
-		this.editMode = false;
 	};
 }
 
