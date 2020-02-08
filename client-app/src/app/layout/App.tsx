@@ -29,10 +29,10 @@ const App = () => {
 				<Route exact path="/" component={HomePage} />
 				<Route exact path="/activities" component={ActivityDashboard} />
 				<Route path="/createActivity" component={ActivityForm} />
-				<Route path="/activities:id" component={ActivityDetails} />
+				<Route path="/activities/:id" component={ActivityDetails} />
 			</Container>
 		</Fragment>
 	);
 };
 
-export default observer(App);
+export default withRouter(observer(App));
