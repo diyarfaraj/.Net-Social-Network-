@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
 import { Segment, List, Item, Label, Image } from 'semantic-ui-react';
-import { IActivity } from '../../../app/models/activity';
-import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 
 const ActivityDetailedSidebar = () => {
@@ -49,4 +47,4 @@ const ActivityDetailedSidebar = () => {
 	);
 };
 
-export default observer(ActivityDetailedSidebar);
+export default ActivityDetailedSidebar;

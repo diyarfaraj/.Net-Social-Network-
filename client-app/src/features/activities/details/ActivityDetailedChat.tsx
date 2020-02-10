@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
-import { Segment, Grid, Icon, Comment, Header, Form, Button } from 'semantic-ui-react';
-import { IActivity } from '../../../app/models/activity';
-import { observer } from 'mobx-react-lite';
+import { Segment, Comment, Header, Form, Button } from 'semantic-ui-react';
 
 const ActivityDetailedChat = () => {
 	return (
