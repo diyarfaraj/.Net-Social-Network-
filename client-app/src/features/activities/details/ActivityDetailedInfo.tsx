@@ -42,4 +42,4 @@ const ActivityDetailedInfo: React.FC<{ activity: IActivity }> = ({ activity }) =
 	);
 };
 
-export default ActivityDetailedInfo;
+export default observer(ActivityDetailedInfo);
