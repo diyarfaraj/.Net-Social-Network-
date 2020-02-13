@@ -19,9 +19,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({ match, h
 
 	useEffect(
 		() => {
-			loadSingleActivity(match.params.id).catch(() => {
-				history.push('/notfound');
-			});
+			loadSingleActivity(match.params.id);
 		},
 		[ loadSingleActivity, match.params.id, history ]
 	);
