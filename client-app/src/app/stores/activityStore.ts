@@ -46,9 +46,9 @@ export class ActivityStore {
 			console.log(this.groupActivitiesByDate(activities));
 		} catch (e) {
 			runInAction('loading activities error', () => {
-				console.log(e, 'ERROr loading activitiess');
+				this.loadingInitial = false;
 			});
-			this.loadingInitial = false;
+			throw e;
 		}
 	};
 
@@ -69,7 +69,7 @@ export class ActivityStore {
 				runInAction('get activity error', () => {
 					this.loadingInitial = false;
 				});
-				console.log(error);
+				throw error;
 			}
 		}
 	};
