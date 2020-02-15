@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import ActivityStore from '../../../app/stores/activityStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router';
+import {Form as FinalForm, Field} from 'react-final-form';
 
 interface DetailParams {
 	id: string;
@@ -48,7 +49,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 		const { name, value } = event.currentTarget;
 		setActivity({ ...activity, [name]: value });
 	};
-
+/* 
 	const handleSubmit = () => {
 		if (activity.id.length === 0) {
 			let newActivity = {
@@ -60,18 +61,25 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 		} else {
 			editActivity(activity).then(() => history.push(`/activities/${activity.id}`));
 		}
-	};
+	}; */
+
+	const handleFinalFormSubmit = (values: any) => {
+		console.log(values);
+	}
 
 	return (
 		<Grid>
 			<Grid.Column width={10}>
 				<Segment clearing>
-					<Form onSubmit={handleSubmit}>
-						<Form.Input
-							onChange={handleInputChange}
+				<FinalForm onSubmit={handleFinalFormSubmit} render={({handleSubmit}) => (
+
+					<Form onSubmit={handleSubmit} >
+						<Field
+							
 							name="title"
 							placeholder="Title"
 							value={activity.title}
+							component='input'
 						/>
 						<Form.TextArea
 							onChange={handleInputChange}
@@ -107,6 +115,9 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 						/>
 						<Button loading={submitting} content="Submit" floated="right" positive type="submit" />
 					</Form>
+						
+					)}/>
+					
 				</Segment>
 			</Grid.Column>
 		</Grid>
