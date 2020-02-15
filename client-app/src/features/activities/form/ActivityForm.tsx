@@ -7,6 +7,9 @@ import { observer } from 'mobx-react-lite';
 import { RouteComponentProps } from 'react-router';
 import {Form as FinalForm, Field} from 'react-final-form';
 import TextInput from './../../../app/common/form/TextInput';
+import TextAreaInput from './../../../app/common/form/TextAreaInput';
+import SelectInput from './../../../app/common/form/SelectInput';
+import  {category}  from './../../../app/common/options/categoryOptions';
 
 interface DetailParams {
 	id: string;
@@ -46,10 +49,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 		[ loadSingleActivity, clearActivity, match.params.id, initialFormState, activity.id.length ]
 	);
 
-	const handleInputChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+	/* const handleInputChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const { name, value } = event.currentTarget;
 		setActivity({ ...activity, [name]: value });
-	};
+	}; */
 /* 
 	const handleSubmit = () => {
 		if (activity.id.length === 0) {
@@ -82,28 +85,33 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 							value={activity.title}
 							component={TextInput}
 						/>
-						<Form.TextArea
-							onChange={handleInputChange}
+						<Field
+							
 							name="description"
+							rows={3}
 							placeholder="Description"
 							value={activity.description}
+							component={TextAreaInput}
 						/>
-						<Form.Input
-							onChange={handleInputChange}
+						<Field
+							
 							name="category"
 							placeholder="Category"
 							value={activity.category}
+							component={SelectInput}
+							options={category}
 						/>
-						<Form.Input
-							onChange={handleInputChange}
+						<Field
+							
 							name="date"
-							type="datetime-local"
+							
 							placeholder="Date"
 							value={activity.date}
+							component={TextInput}
 						/>
-						<Form.Input onChange={handleInputChange} name="city" placeholder="City" value={activity.city} />
-						<Form.Input
-							onChange={handleInputChange}
+						<Field component={TextInput} name="city" placeholder="City" value={activity.city} />
+						<Field
+							component={TextInput}
 							name="venue"
 							placeholder="Venue"
 							value={activity.venue}
