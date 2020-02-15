@@ -10,7 +10,7 @@ interface IProps extends FieldRenderProps<Date>, FormFieldProps {}
     return (
           <Form.Field error={touched && !!error}  width={width} >
         
-       <DateTimePicker placeholder={placeholder} value={input.value || null} onChange={input.onChange} {...rest}/>
+       <DateTimePicker placeholder={placeholder} value={input.value || null} date={date} time={time} onChange={input.onChange} {...rest}/>
        {touched && error && (
             <Label basic color='red'>{error}</Label>
         )}
