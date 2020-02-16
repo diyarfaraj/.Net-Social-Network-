@@ -1,6 +1,5 @@
-import React, { useState, FormEvent, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Segment, Form, Button, Grid } from 'semantic-ui-react';
-import { IActivityFormValues } from './../../../app/models/activity';
 import { v4 as uuid } from 'uuid';
 import ActivityStore from '../../../app/stores/activityStore';
 import { observer } from 'mobx-react-lite';
@@ -13,6 +12,20 @@ import { category } from './../../../app/common/options/categoryOptions';
 import DateInput from '../../../app/common/form/DateInput';
 import { combineDateAndTime } from './../../../app/common/util/util';
 import { ActivityFormValues } from '../../../app/models/activity';
+import { combineValidators, isRequired, composeValidators, hasLengthGreaterThan } from 'revalidate';
+
+const validate = combineValidators({
+	title: isRequired({ message: 'The event title is required' }),
+	category: isRequired('Category'),
+	description: composeValidators(
+		isRequired('Description'),
+		hasLengthGreaterThan(4)({ message: 'Description needs to be at least 5 characters' })
+	)(),
+	city: isRequired('City'),
+	venue: isRequired('Venue'),
+	date: isRequired('Date'),
+	time: isRequired('Time')
+});
 
 interface DetailParams {
 	id: string;
@@ -20,14 +33,7 @@ interface DetailParams {
 
 const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, history }) => {
 	const activityStore = useContext(ActivityStore);
-	const {
-		createActivity,
-		editActivity,
-		submitting,
-		activity: initialFormState,
-		loadSingleActivity,
-		clearActivity
-	} = activityStore;
+	const { createActivity, editActivity, submitting, activity: initialFormState, loadSingleActivity } = activityStore;
 
 	const [ activity, setActivity ] = useState(new ActivityFormValues());
 	const [ loading, setLoading ] = useState(false);
@@ -65,9 +71,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 			<Grid.Column width={10}>
 				<Segment clearing>
 					<FinalForm
+						validate={validate}
 						initialValues={activity}
 						onSubmit={handleFinalFormSubmit}
-						render={({ handleSubmit }) => (
+						render={({ handleSubmit, invalid, pristine }) => (
 							<Form onSubmit={handleSubmit} loading={loading}>
 								<Field name="title" placeholder="Title" value={activity.title} component={TextInput} />
 								<Field
@@ -117,7 +124,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 									disabled={loading}
 								/>
 								<Button
-									disabled={loading}
+									disabled={loading || invalid || pristine}
 									loading={submitting}
 									content="Submit"
 									floated="right"

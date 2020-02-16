@@ -5,7 +5,9 @@ import agent from '../api/agent';
 import { history } from './../../index';
 import { toast } from 'react-toastify';
 
+
 configure({ enforceActions: 'always' });
+
 
 export class ActivityStore {
 	@observable activityRegistry = new Map();
