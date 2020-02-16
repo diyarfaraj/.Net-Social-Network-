@@ -44,29 +44,20 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 		[ loadSingleActivity, match.params.id ]
 	);
 
-	/* const handleInputChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-		const { name, value } = event.currentTarget;
-		setActivity({ ...activity, [name]: value });
-	}; */
-	/* 
-	const handleSubmit = () => {
-		if (activity.id.length === 0) {
+	const handleFinalFormSubmit = (values: any) => {
+		const dateAndTime = combineDateAndTime(values.date, values.time);
+		const { date, time, ...activity } = values;
+		activity.date = dateAndTime;
+		if (!activity.id) {
 			let newActivity = {
 				...activity,
 				id: uuid()
 			};
 
-			createActivity(newActivity).then(() => history.push(`/activities/${newActivity.id}`));
+			createActivity(newActivity);
 		} else {
-			editActivity(activity).then(() => history.push(`/activities/${activity.id}`));
+			editActivity(activity);
 		}
-	}; */
-
-	const handleFinalFormSubmit = (values: any) => {
-		const dateAndTime = combineDateAndTime(values.date, values.time);
-		const { date, time, ...activity } = values;
-		activity.date = dateAndTime;
-		console.log(activity);
 	};
 
 	return (
@@ -113,7 +104,13 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({ match, hist
 								<Field component={TextInput} name="city" placeholder="City" value={activity.city} />
 								<Field component={TextInput} name="venue" placeholder="Venue" value={activity.venue} />
 								<Button
-									onClick={() => history.push('/activities')}
+									onClick={
+										activity.id ? (
+											() => history.push(`/activities/${activity.id}`)
+										) : (
+											() => history.push('/activities')
+										)
+									}
 									type="button"
 									floated="right"
 									content="Cancel"
