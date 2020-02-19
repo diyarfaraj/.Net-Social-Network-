@@ -37,8 +37,10 @@ namespace Application.User
             _userManager = userManager;
                 _signInManager = signInManager;
             }
-        
-                    public async Task<AppUser> Handler(Query request, CancellationToken cancellationToken)
+
+           
+
+            public async Task<AppUser> Handle(Query request, CancellationToken cancellationToken)
                     {
                         var user = await _userManager.FindByEmailAsync(request.Email);
 
