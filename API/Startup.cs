@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Middleware;
 using Application.Activities;
+using Application.Interfaces;
 using Domain;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -58,6 +59,7 @@ namespace API
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
             services.AddAuthentication();
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
 
         }
 
