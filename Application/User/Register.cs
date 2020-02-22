@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
+using Application.Validators;
 using Domain;
 using FluentValidation;
 using MediatR;
@@ -19,7 +20,7 @@ namespace Application.User
          public class Command : IRequest<User>
                 {
         
-                    public string DisplaName { get; set; }
+                    public string DisplayName { get; set; }
                     public string UserName { get; set; }
                     public string Email { get; set; }
                     public string Password { get; set; }
@@ -31,10 +32,10 @@ namespace Application.User
         {
             public CommandValidator()
             {
-                RuleFor(x => x.DisplaName).NotEmpty();
+                RuleFor(x => x.DisplayName).NotEmpty();
                 RuleFor(x => x.UserName).NotEmpty();
-                RuleFor(x => x.Email).NotEmpty();
-                RuleFor(x => x.Password).NotEmpty();
+                RuleFor(x => x.Email).NotEmpty().EmailAddress();
+                RuleFor(x => x.Password).Password();
             }
         }
 
@@ -66,7 +67,7 @@ namespace Application.User
 
                     var user = new AppUser
                     {
-                        DisplayName = request.DisplaName,
+                        DisplayName = request.DisplayName,
                         Email = request.Email,
                         UserName = request.UserName
 
