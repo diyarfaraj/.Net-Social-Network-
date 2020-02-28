@@ -1,8 +1,15 @@
 import { observable, computed, action } from 'mobx';
 import { IUser, IUserFormValues } from '../layout/user';
 import agent from '../api/agent';
+import { RootStore } from './rootStore';
 
 export default class UserStore {
+	rootStore: RootStore;
+
+	constructor(rootStore: RootStore) {
+		this.rootStore = rootStore;
+	}
+
 	@observable user: IUser | null = null;
 
 	@computed
@@ -14,6 +21,7 @@ export default class UserStore {
 	login = async (values: IUserFormValues) => {
 		try {
 			const user = await agent.User.login(values);
+			this.user = user;
 		} catch (error) {
 			console.log('login user error', error);
 		}
