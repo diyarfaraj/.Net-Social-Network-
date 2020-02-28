@@ -13,7 +13,7 @@ export default class UserStore {
 	@action
 	login = async (values: IUserFormValues) => {
 		try {
-			const user = await agent.User.login();
+			const user = await agent.User.login(values);
 		} catch (error) {
 			console.log('login user error', error);
 		}
