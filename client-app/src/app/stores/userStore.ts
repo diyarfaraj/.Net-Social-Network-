@@ -2,6 +2,7 @@ import { observable, computed, action, runInAction } from 'mobx';
 import { IUser, IUserFormValues } from '../layout/user';
 import agent from '../api/agent';
 import { RootStore } from './rootStore';
+import { history } from './../../index';
 
 export default class UserStore {
 	rootStore: RootStore;
@@ -26,8 +27,9 @@ export default class UserStore {
 			});
 
 			console.log(user);
+			history.push('/activities');
 		} catch (error) {
-			console.log('login user error', error);
+			throw error;
 		}
 	};
 }
