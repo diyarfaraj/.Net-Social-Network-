@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Form as FinalForm, Field } from 'react-final-form';
-import { Form, Button, Label } from 'semantic-ui-react';
+import { Form, Button, Label, Header } from 'semantic-ui-react';
 import TextInput from './../../app/common/form/TextInput';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IUserFormValues } from '../../app/layout/user';
@@ -23,24 +23,24 @@ const LoginForm = () => {
 					[FORM_ERROR]: error
 				}))}
 			validate={validate}
-			render={({ handleSubmit, submitting, form, submitError, invalid, pristine, dirtySinceLastSubmit }) => (
+			render={({ handleSubmit, submitting, submitError, invalid, pristine, dirtySinceLastSubmit }) => (
 				<Form onSubmit={handleSubmit}>
+					<Header as="h2" content="Login to Robotia" color="teal" textAlign="center" />
 					<Field name="email" component={TextInput} placeholder="Email" />
 					<Field name="password" type="password" component={TextInput} placeholder="Password" />
 
 					<Button
 						disabled={(invalid && !dirtySinceLastSubmit) || pristine}
 						loading={submitting}
-						positive
+						color="teal"
 						content="Login"
+						fluid
 					/>
 					<br />
 					<br />
 
 					{submitError &&
 					!dirtySinceLastSubmit && <Label color="red" basic content={submitError.statusText} />}
-
-					<pre>{JSON.stringify(form.getState(), null, 2)}</pre>
 				</Form>
 			)}
 		/>
