@@ -6,6 +6,7 @@ import { RootStoreContext } from '../../app/stores/rootStore';
 import { IUserFormValues } from '../../app/layout/user';
 import { FORM_ERROR } from 'final-form';
 import { combineValidators, isRequired } from 'revalidate';
+import ErrorMessage from './../../app/common/form/ErrorMessage';
 
 const validate = combineValidators({
 	email: isRequired('email'),
@@ -24,7 +25,7 @@ const LoginForm = () => {
 				}))}
 			validate={validate}
 			render={({ handleSubmit, submitting, submitError, invalid, pristine, dirtySinceLastSubmit }) => (
-				<Form onSubmit={handleSubmit}>
+				<Form onSubmit={handleSubmit} error>
 					<Header as="h2" content="Login to Robotia" color="teal" textAlign="center" />
 					<Field name="email" component={TextInput} placeholder="Email" />
 					<Field name="password" type="password" component={TextInput} placeholder="Password" />
@@ -40,7 +41,7 @@ const LoginForm = () => {
 					<br />
 
 					{submitError &&
-					!dirtySinceLastSubmit && <Label color="red" basic content={submitError.statusText} />}
+					!dirtySinceLastSubmit && <ErrorMessage error={submitError} text="Invalid username or password" />}
 				</Form>
 			)}
 		/>
