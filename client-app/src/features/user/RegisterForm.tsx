@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import { Form as FinalForm, Field } from 'react-final-form';
-import { Form, Button, Label, Header } from 'semantic-ui-react';
+import { Form, Button, Header } from 'semantic-ui-react';
 import TextInput from './../../app/common/form/TextInput';
 import { RootStoreContext } from '../../app/stores/rootStore';
 import { IUserFormValues } from '../../app/layout/user';
 import { FORM_ERROR } from 'final-form';
 import { combineValidators, isRequired } from 'revalidate';
 import ErrorMessage from './../../app/common/form/ErrorMessage';
-import { register } from './../../serviceWorker';
 
 const validate = combineValidators({
 	username: isRequired('username'),
@@ -26,7 +25,7 @@ const RegisterForm = () => {
 				register(values).catch((error) => ({
 					[FORM_ERROR]: error
 				}))}
-			/* validate={validate} */
+			validate={validate}
 			render={({ handleSubmit, submitting, submitError, invalid, pristine, dirtySinceLastSubmit }) => (
 				<Form onSubmit={handleSubmit} error>
 					<Header as="h2" content="Register to Robotia" color="teal" textAlign="center" />
@@ -45,10 +44,7 @@ const RegisterForm = () => {
 					<br />
 					<br />
 
-					{submitError &&
-					!dirtySinceLastSubmit && (
-						<ErrorMessage error={submitError} text={JSON.stringify(submitError.data.errors)} />
-					)}
+					{submitError && !dirtySinceLastSubmit && <ErrorMessage error={submitError} />}
 				</Form>
 			)}
 		/>

@@ -43,7 +43,6 @@ export default class UserStore {
 			history.push('/activities');
 		} catch (error) {
 			throw error;
-			console.log('Error at registering a user at userStore.ts', error);
 		}
 	};
 
