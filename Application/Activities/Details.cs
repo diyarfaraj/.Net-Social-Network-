@@ -36,7 +36,7 @@ namespace Application.Activities
                       throw new RestException(HttpStatusCode.NotFound, new {activity = " NOT FOUUD"});
 
 
-                return activity;
+                return new ActivityDto;
             }
         }
     }
