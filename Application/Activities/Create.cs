@@ -47,10 +47,10 @@ namespace Application.Activities
         public class Handler : IRequestHandler<Command>
         {
         private readonly DataContext _context;
-        private readonly IUserAccessor _userAccossor;
-            public Handler(DataContext context, IUserAccessor userAccossor)
+        private readonly IUserAccessor _userAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
-                _userAccossor = userAccossor;
+                _userAccessor = userAccessor;
                 _context = context;
                 
             }
@@ -72,7 +72,7 @@ namespace Application.Activities
                 _context.Activities.Add(activity);
 
                 var user = await _context.Users.SingleOrDefaultAsync(x =>
-                 x.UserName == _userAccossor.getCurrentUsername());
+                 x.UserName == _userAccessor.getCurrentUsername());
 
                  var attendee = new UserActivity
                  {

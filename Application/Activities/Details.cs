@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +21,11 @@ namespace Application.Activities
         public class Handler : IRequestHandler<Query, ActivityDto>
         {
         private readonly DataContext _context;
-            public Handler(DataContext context)
+        private readonly IMapper _mapper;
+            public Handler(DataContext context, IMapper mapper)
             {
+            
+            _mapper = mapper;
             _context = context;
             }
 
@@ -35,8 +39,9 @@ namespace Application.Activities
                 if(activity == null)
                       throw new RestException(HttpStatusCode.NotFound, new {activity = " NOT FOUUD"});
 
+                var activityToReturn = _mapper.Map<Activity, ActivityDto>(activity);
 
-                return new ActivityDto;
+                return activityToReturn;
             }
         }
     }
