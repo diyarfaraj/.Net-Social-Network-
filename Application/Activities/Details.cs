@@ -33,9 +33,8 @@ namespace Application.Activities
             {
 
                 var activity = await _context.Activities
-                .Include(x => x.UserActivities)
-                .ThenInclude(x => x.AppUser)
-                .SingleOrDefaultAsync(x => x.Id == request.Id);
+              
+                .FindAsync(request.Id);
                 if(activity == null)
                       throw new RestException(HttpStatusCode.NotFound, new {activity = " NOT FOUUD"});
 

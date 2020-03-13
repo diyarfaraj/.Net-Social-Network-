@@ -28,8 +28,7 @@ namespace Application.Activities
             CancellationToken cancellationToken)
             {
                 var activities = await _context.Activities
-                .Include(x => x.UserActivities)
-                .ThenInclude(x => x.AppUser)
+            
                 .ToListAsync();
                 return _mapper.Map<List<Activity>, List<ActivityDto>>(activities);
             }
