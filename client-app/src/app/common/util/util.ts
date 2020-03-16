@@ -16,13 +16,8 @@ export const combineDateAndTime = (date: Date, time: Date) => {
 
 export const setActivityProps = (activity: IActivity, user: IUser) => {
 	activity.date = new Date(activity.date);
-	activity.isGoing = activity.attendees.some((a) => a.username === user.username);
-	activity.isHost = activity.attendees.some((a) => a.username === user.username && a.isHost);
-	console.log('IsHost' + activity.isHost);
-	console.log('isGoing' + activity.isGoing);
-	console.log(user.username);
-	console.log(activity.attendees);
-	console.log(activity.title);
+	activity.isGoing = activity.attendees.some((a) => a.username === user.userName);
+	activity.isHost = activity.attendees.some((a) => a.username === user.userName && a.isHost);
 
 	return activity;
 };
