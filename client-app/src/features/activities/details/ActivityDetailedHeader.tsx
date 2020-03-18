@@ -21,7 +21,7 @@ const activityImageTextStyle = {
 
 const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({ activity }) => {
 	const rootStore = useContext(RootStoreContext);
-	const { attendActivity, cancelAttendence } = rootStore.activityStore;
+	const { attendActivity, cancelAttendence, loading } = rootStore.activityStore;
 	return (
 		<Segment.Group>
 			<Segment basic attached="top" style={{ padding: '0' }}>
@@ -46,9 +46,11 @@ const ActivityDetailedHeader: React.FC<{ activity: IActivity }> = ({ activity })
 						Manage Event
 					</Button>
 				) : activity.isGoing ? (
-					<Button onClick={cancelAttendence}>Cancel attendance</Button>
+					<Button loading={loading} onClick={cancelAttendence}>
+						Cancel attendance
+					</Button>
 				) : (
-					<Button onClick={attendActivity} color="teal">
+					<Button loading={loading} onClick={attendActivity} color="teal">
 						Join Activity
 					</Button>
 				)}
