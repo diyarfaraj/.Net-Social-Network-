@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Diyar Faraj\\Robotia\\api\\API.csproj": {}
+    "C:\\Users\\Diyar Faraj\\Robotia\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Diyar Faraj\\Robotia\\api\\API.csproj": {
+    "C:\\Users\\Diyar Faraj\\Robotia\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Diyar Faraj\\Robotia\\api\\API.csproj",
+        "projectUniqueName": "C:\\Users\\Diyar Faraj\\Robotia\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\Diyar Faraj\\Robotia\\api\\API.csproj",
+        "projectPath": "C:\\Users\\Diyar Faraj\\Robotia\\API\\API.csproj",
         "packagesPath": "C:\\Users\\Diyar Faraj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Diyar Faraj\\Robotia\\api\\obj\\",
+        "outputPath": "C:\\Users\\Diyar Faraj\\Robotia\\API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
