@@ -49,6 +49,18 @@
           "lib/netstandard1.3/Castle.Core.dll": {}
         }
       },
+      "CloudinaryDotNet/1.10.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "12.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/CloudinaryDotNet.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/CloudinaryDotNet.dll": {}
+        }
+      },
       "FluentValidation/8.6.1": {
         "type": "package",
         "dependencies": {
@@ -2098,6 +2110,7 @@
         "framework": ".NETCoreApp,Version=v3.0",
         "dependencies": {
           "Application": "1.0.0",
+          "CloudinaryDotNet": "1.10.0",
           "Domain": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "5.6.0"
         },
@@ -2178,6 +2191,28 @@
         "lib/netstandard1.3/Castle.Core.dll",
         "lib/netstandard1.3/Castle.Core.xml",
         "readme.txt"
+      ]
+    },
+    "CloudinaryDotNet/1.10.0": {
+      "sha512": "y4C2BkacylKVAzXFFUBpLOTkevGJgxAYMxGbAghj4wJmlf8F7BG2m9Dg9+SOR6xKcMOXbu2kRw2/UdqP9GSbvA==",
+      "type": "package",
+      "path": "cloudinarydotnet/1.10.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "cloudinarydotnet.1.10.0.nupkg.sha512",
+        "cloudinarydotnet.nuspec",
+        "lib/net45/CloudinaryDotNet.dll",
+        "lib/net45/CloudinaryDotNet.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/System.Runtime.InteropServices.RuntimeInformation.dll",
+        "lib/net45/System.Text.Encodings.Web.dll",
+        "lib/netcore/CloudinaryDotNet.deps.json",
+        "lib/netcore/CloudinaryDotNet.dll",
+        "lib/netcore/CloudinaryDotNet.xml",
+        "lib/netstandard1.3/CloudinaryDotNet.deps.json",
+        "lib/netstandard1.3/CloudinaryDotNet.dll",
+        "lib/netstandard1.3/CloudinaryDotNet.xml"
       ]
     },
     "FluentValidation/8.6.1": {
@@ -6913,11 +6948,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Diyar Faraj\\Robotia\\api\\API.csproj",
+      "projectUniqueName": "c:\\Users\\Diyar Faraj\\Robotia\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\Diyar Faraj\\Robotia\\api\\API.csproj",
+      "projectPath": "c:\\Users\\Diyar Faraj\\Robotia\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Diyar Faraj\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Diyar Faraj\\Robotia\\api\\obj\\",
+      "outputPath": "c:\\Users\\Diyar Faraj\\Robotia\\API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -6940,11 +6975,11 @@
       "frameworks": {
         "netcoreapp3.0": {
           "projectReferences": {
-            "C:\\Users\\Diyar Faraj\\Robotia\\Application\\Application.csproj": {
-              "projectPath": "C:\\Users\\Diyar Faraj\\Robotia\\Application\\Application.csproj"
+            "c:\\Users\\Diyar Faraj\\Robotia\\Application\\Application.csproj": {
+              "projectPath": "c:\\Users\\Diyar Faraj\\Robotia\\Application\\Application.csproj"
             },
-            "C:\\Users\\Diyar Faraj\\Robotia\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\Diyar Faraj\\Robotia\\Infrastructure\\Infrastructure.csproj"
+            "c:\\Users\\Diyar Faraj\\Robotia\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "c:\\Users\\Diyar Faraj\\Robotia\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }
