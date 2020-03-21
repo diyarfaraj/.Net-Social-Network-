@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net.Mime;
 using System.Net;
 using System.Threading;
@@ -63,7 +64,7 @@ namespace Application.User
                                 DisplayName = user.DisplayName,
                                 Token = _jwtGenerator.CreateToken(user),
                                 UserName = user.UserName,
-                                Image = null
+                                Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
 
                             };
                         }
