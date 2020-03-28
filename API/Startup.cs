@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Activities;
 using Application.Interfaces;
 using API.Middleware;
+using API.SignalR;
 using AutoMapper;
 using Domain;
 using FluentValidation.AspNetCore;
@@ -110,7 +111,7 @@ namespace API {
 
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
-                endpoints.MapHub<ChatHub> { "/chat" };
+                endpoints.MapHub<ChatHub> ("/chat");
             });
         }
     }

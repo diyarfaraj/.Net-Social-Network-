@@ -19,6 +19,8 @@ namespace API.SignalR {
 
             var comment = await _mediator.Send (command);
 
+            await Clients.All.SendCoreAsync ("RecieveComment", comment)
+
         }
     }
 }
