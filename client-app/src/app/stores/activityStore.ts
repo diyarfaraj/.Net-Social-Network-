@@ -1,218 +1,251 @@
-import { observable, action, computed, runInAction } from 'mobx';
-import { SyntheticEvent } from 'react';
-import { IActivity } from '../models/activity';
-import agent from '../api/agent';
-import { history } from './../../index';
-import { toast } from 'react-toastify';
-import { RootStore } from './rootStore';
-import { setActivityProps, createAttendee } from '../common/util/util';
+import { observable, action, computed, runInAction } from "mobx";
+import { SyntheticEvent } from "react";
+import { IActivity } from "../models/activity";
+import agent from "../api/agent";
+import { history } from "./../../index";
+import { toast } from "react-toastify";
+import { RootStore } from "./rootStore";
+import { setActivityProps, createAttendee } from "../common/util/util";
+import { HubConnection } from "@microsoft/signalr";
 
 export default class ActivityStore {
-	rootStore: RootStore;
+  rootStore: RootStore;
 
-	constructor(rootStore: RootStore) {
-		this.rootStore = rootStore;
-	}
+  constructor(rootStore: RootStore) {
+    this.rootStore = rootStore;
+  }
 
-	@observable activityRegistry = new Map();
-	@observable loadingInitial = false;
-	@observable activity: IActivity | null = null;
-	@observable submitting = false;
-	@observable target = '';
-	@observable loading = false;
+  @observable activityRegistry = new Map();
+  @observable loadingInitial = false;
+  @observable activity: IActivity | null = null;
+  @observable submitting = false;
+  @observable target = "";
+  @observable loading = false;
+  @observable.ref hubConnection: HubConnection | null = null;
 
-	@computed
-	get activitiesByDate() {
-		return this.groupActivitiesByDate(Array.from(this.activityRegistry.values()));
-	}
+  @action createHubConnection = () => {
+    this.hubConnection = new HubConnecitonBuilder()
+      .withUrl("http/localhost:5000/chat", {
+        accessTokenfactory: () => this.rootStore.commonStore.token!
+      })
 
-	groupActivitiesByDate(activities: IActivity[]) {
-		const sortedActivities = activities.sort((a, b) => a.date.getTime() - b.date.getTime());
-		return Object.entries(
-			sortedActivities.reduce(
-				(activities, activity) => {
-					const date = activity.date.toISOString().split('T')[0];
-					activities[date] = activities[date] ? [ ...activities[date], activity ] : [ activity ];
-					return activities;
-				},
-				{} as { [key: string]: IActivity[] }
-			)
-		);
-	}
+      .configureLogging(LogLevel.Information)
+      .build();
 
-	@action
-	loadActivities = async () => {
-		this.loadingInitial = true;
+    this.hubConnection
+      .start()
+      .then(() => console.log(this.hubConnection!.state))
+      .catch(error =>
+        console.log("error establishing the conneciton: ", error)
+      );
 
-		try {
-			const activities = await agent.Activities.list();
-			runInAction('loading activities ', () => {
-				activities.forEach((activity) => {
-					setActivityProps(activity, this.rootStore.userStore.user!);
-					this.activityRegistry.set(activity.id, activity);
-				});
-				this.loadingInitial = false;
-			});
-		} catch (e) {
-			runInAction('loading activities error', () => {
-				this.loadingInitial = false;
-			});
-			console.log(e);
-		}
-	};
+    this.hubConnection.on("RecieveComment", comment => {
+      this.activity!.comments.push(comment);
+    });
+  };
 
-	@action
-	loadSingleActivity = async (id: string) => {
-		let activity = this.getSingleActivity(id);
+  @action stopHubConnection = () => {
+    this.hubConnection!.stop();
+  };
 
-		if (activity) {
-			this.activity = activity;
-			return activity;
-		} else {
-			this.loadingInitial = true;
-			try {
-				activity = await agent.Activities.details(id);
-				runInAction('getting activity', () => {
-					setActivityProps(activity, this.rootStore.userStore.user!);
+  @computed
+  get activitiesByDate() {
+    return this.groupActivitiesByDate(
+      Array.from(this.activityRegistry.values())
+    );
+  }
 
-					this.activity = activity;
-					this.activityRegistry.set(activity.id, activity);
+  groupActivitiesByDate(activities: IActivity[]) {
+    const sortedActivities = activities.sort(
+      (a, b) => a.date.getTime() - b.date.getTime()
+    );
+    return Object.entries(
+      sortedActivities.reduce((activities, activity) => {
+        const date = activity.date.toISOString().split("T")[0];
+        activities[date] = activities[date]
+          ? [...activities[date], activity]
+          : [activity];
+        return activities;
+      }, {} as { [key: string]: IActivity[] })
+    );
+  }
 
-					this.loadingInitial = false;
-				});
-				return activity;
-			} catch (error) {
-				runInAction('get activity error', () => {
-					this.loadingInitial = false;
-				});
-				console.log(error);
-			}
-		}
-	};
+  @action
+  loadActivities = async () => {
+    this.loadingInitial = true;
 
-	@action
-	clearActivity = () => {
-		this.activity = null;
-	};
+    try {
+      const activities = await agent.Activities.list();
+      runInAction("loading activities ", () => {
+        activities.forEach(activity => {
+          setActivityProps(activity, this.rootStore.userStore.user!);
+          this.activityRegistry.set(activity.id, activity);
+        });
+        this.loadingInitial = false;
+      });
+    } catch (e) {
+      runInAction("loading activities error", () => {
+        this.loadingInitial = false;
+      });
+      console.log(e);
+    }
+  };
 
-	getSingleActivity = (id: string) => {
-		return this.activityRegistry.get(id);
-	};
+  @action
+  loadSingleActivity = async (id: string) => {
+    let activity = this.getSingleActivity(id);
 
-	@action
-	createActivity = async (activity: IActivity) => {
-		this.submitting = true;
-		try {
-			await agent.Activities.create(activity);
-			const attendee = createAttendee(this.rootStore.userStore.user!);
-			attendee.isHost = true;
-			let attendees = [];
-			attendees.push(attendee);
-			activity.attendees = attendees;
-			activity.isHost = true;
+    if (activity) {
+      this.activity = activity;
+      return activity;
+    } else {
+      this.loadingInitial = true;
+      try {
+        activity = await agent.Activities.details(id);
+        runInAction("getting activity", () => {
+          setActivityProps(activity, this.rootStore.userStore.user!);
 
-			runInAction('creating activity', () => {
-				this.activityRegistry.set(activity.id, activity);
-				this.submitting = false;
-			});
+          this.activity = activity;
+          this.activityRegistry.set(activity.id, activity);
 
-			history.push(`/activities/${activity.id}`);
-		} catch (error) {
-			runInAction('create activity errår', () => {
-				this.submitting = false;
-			});
-			toast.error('Problem submiting dataa');
-			console.log(error.response, 'ERROr creating activitiess');
-		}
-	};
+          this.loadingInitial = false;
+        });
+        return activity;
+      } catch (error) {
+        runInAction("get activity error", () => {
+          this.loadingInitial = false;
+        });
+        console.log(error);
+      }
+    }
+  };
 
-	@action
-	editActivity = async (activity: IActivity) => {
-		this.submitting = true;
-		try {
-			await agent.Activities.update(activity);
-			runInAction('edit activity', () => {
-				this.activityRegistry.set(activity.id, activity);
-				this.activity = activity;
-				this.submitting = false;
-			});
+  @action
+  clearActivity = () => {
+    this.activity = null;
+  };
 
-			history.push(`/activities/${activity.id}`);
-		} catch (error) {
-			runInAction('edit activity error', () => {
-				this.submitting = false;
-			});
-			toast.error('Problem submiting dataa');
+  getSingleActivity = (id: string) => {
+    return this.activityRegistry.get(id);
+  };
 
-			console.log(error.response, 'ERROr editing activitiess');
-		}
-	};
+  @action
+  createActivity = async (activity: IActivity) => {
+    this.submitting = true;
+    try {
+      await agent.Activities.create(activity);
+      const attendee = createAttendee(this.rootStore.userStore.user!);
+      attendee.isHost = true;
+      let attendees = [];
+      attendees.push(attendee);
+      activity.attendees = attendees;
+      activity.isHost = true;
 
-	@action
-	deleteActivity = async (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
-		this.submitting = true;
-		this.target = event.currentTarget.name;
+      runInAction("creating activity", () => {
+        this.activityRegistry.set(activity.id, activity);
+        this.submitting = false;
+      });
 
-		try {
-			await agent.Activities.delete(id);
-			runInAction('delete activity', () => {
-				this.activityRegistry.delete(id);
-				this.submitting = false;
-				this.target = '';
-			});
-		} catch (error) {
-			runInAction('delete activity error', () => {
-				this.submitting = false;
-				this.target = '';
-			});
-			console.log(error, 'ERROr deleteing activitiess');
-		}
-	};
+      history.push(`/activities/${activity.id}`);
+    } catch (error) {
+      runInAction("create activity errår", () => {
+        this.submitting = false;
+      });
+      toast.error("Problem submiting dataa");
+      console.log(error.response, "ERROr creating activitiess");
+    }
+  };
 
-	@action
-	attendActivity = async () => {
-		const attendee = createAttendee(this.rootStore.userStore.user!);
-		this.loading = true;
-		try {
-			await agent.Activities.attend(this.activity!.id);
-			runInAction(() => {
-				if (this.activity) {
-					this.activity.attendees.push(attendee);
-					this.activity.isGoing = true;
-					this.activityRegistry.set(this.activity.id, this.activity);
-					this.loading = false;
-				}
-			});
-		} catch (error) {
-			runInAction(() => {
-				this.loading = false;
-			});
+  @action
+  editActivity = async (activity: IActivity) => {
+    this.submitting = true;
+    try {
+      await agent.Activities.update(activity);
+      runInAction("edit activity", () => {
+        this.activityRegistry.set(activity.id, activity);
+        this.activity = activity;
+        this.submitting = false;
+      });
 
-			toast.error('Problem signing UP to activity');
-		}
-	};
+      history.push(`/activities/${activity.id}`);
+    } catch (error) {
+      runInAction("edit activity error", () => {
+        this.submitting = false;
+      });
+      toast.error("Problem submiting dataa");
 
-	@action
-	cancelAttendence = async () => {
-		this.loading = true;
-		try {
-			await agent.Activities.unattend(this.activity!.id);
-			runInAction(() => {
-				if (this.activity) {
-					this.activity.attendees = this.activity.attendees.filter(
-						(a) => a.username !== this.rootStore.userStore.user!.userName
-					);
+      console.log(error.response, "ERROr editing activitiess");
+    }
+  };
 
-					this.activity.isGoing = false;
-					this.activityRegistry.set(this.activity.id, this.activity);
-					this.loading = false;
-				}
-			});
-		} catch (error) {
-			runInAction(() => {
-				this.loading = false;
-			});
-			toast.error('problem canceling attendence');
-		}
-	};
+  @action
+  deleteActivity = async (
+    event: SyntheticEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    this.submitting = true;
+    this.target = event.currentTarget.name;
+
+    try {
+      await agent.Activities.delete(id);
+      runInAction("delete activity", () => {
+        this.activityRegistry.delete(id);
+        this.submitting = false;
+        this.target = "";
+      });
+    } catch (error) {
+      runInAction("delete activity error", () => {
+        this.submitting = false;
+        this.target = "";
+      });
+      console.log(error, "ERROr deleteing activitiess");
+    }
+  };
+
+  @action
+  attendActivity = async () => {
+    const attendee = createAttendee(this.rootStore.userStore.user!);
+    this.loading = true;
+    try {
+      await agent.Activities.attend(this.activity!.id);
+      runInAction(() => {
+        if (this.activity) {
+          this.activity.attendees.push(attendee);
+          this.activity.isGoing = true;
+          this.activityRegistry.set(this.activity.id, this.activity);
+          this.loading = false;
+        }
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loading = false;
+      });
+
+      toast.error("Problem signing UP to activity");
+    }
+  };
+
+  @action
+  cancelAttendence = async () => {
+    this.loading = true;
+    try {
+      await agent.Activities.unattend(this.activity!.id);
+      runInAction(() => {
+        if (this.activity) {
+          this.activity.attendees = this.activity.attendees.filter(
+            a => a.username !== this.rootStore.userStore.user!.userName
+          );
+
+          this.activity.isGoing = false;
+          this.activityRegistry.set(this.activity.id, this.activity);
+          this.loading = false;
+        }
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.loading = false;
+      });
+      toast.error("problem canceling attendence");
+    }
+  };
 }
