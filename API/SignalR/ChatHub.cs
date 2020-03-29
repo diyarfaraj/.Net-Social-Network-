@@ -13,13 +13,13 @@ namespace API.SignalR {
         }
 
         public async Task SendComment (Create.Command command) {
-            var user = Context.User?.Claims?.FirstOrDefault (x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var username = Context.User?.Claims?.FirstOrDefault (x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             command.Username = username;
 
             var comment = await _mediator.Send (command);
 
-            await Clients.All.SendCoreAsync ("RecieveComment", comment)
+            await Clients.All.SendAsync ("RecieveComment", comment);
 
         }
     }
