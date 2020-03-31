@@ -43,7 +43,9 @@ export default class ActivityStore {
       );
 
     this.hubConnection.on("RecieveComment", comment => {
-      this.activity!.comments.push(comment);
+      runInAction(() => {
+        this.activity!.comments.push(comment);
+      });
     });
   };
 
