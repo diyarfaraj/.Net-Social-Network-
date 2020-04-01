@@ -19,7 +19,7 @@ namespace API.SignalR {
 
             var comment = await _mediator.Send (command);
 
-            await Clients.All.SendAsync ("RecieveComment", comment);
+            await Clients.Group (command.ActivityId.ToString ()).SendAsync ("RecieveComment", comment);
 
         }
 
@@ -32,7 +32,7 @@ namespace API.SignalR {
 
             var username = GetUsername ();
 
-            await Clients.Group (groupName).SendAsync ("Send", $"{username} has joined the group")
+            await Clients.Group (groupName).SendAsync ("Send", $"{username} has joined the group");
         }
 
         public async Task RemoveFromGroup (string groupName) {
@@ -40,7 +40,7 @@ namespace API.SignalR {
 
             var username = GetUsername ();
 
-            await Clients.Group (groupName).SendAsync ("Send", $"{username} has left the group")
+            await Clients.Group (groupName).SendAsync ("Send", $"{username} has left the group");
         }
     }
 }
