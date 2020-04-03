@@ -15,4 +15,11 @@ export interface IPhoto {
   isMain: boolean;
 }
 
+export interface IUserActivity {
+  id: string;
+  title: string;
+  category: string;
+  date: Date;
+}
+
 /* Glöm inte att "user.ts" finns i andra mappen. NTS */
