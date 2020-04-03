@@ -6,5 +6,7 @@ namespace Application.Activities
         public string DisplayName { get; set; }
         public string image { get; set; }
         public bool IsHost { get; set; }
+
+        public bool Following { get; set; }
     }
 }
