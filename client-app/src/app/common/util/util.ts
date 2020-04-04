@@ -1,32 +1,39 @@
-import { IActivity, IAttendee } from '../../models/activity';
-import { IUser } from '../../layout/user';
+import { IActivity, IAttendee } from "../../models/activity";
+import { IUser } from "../../layout/user";
 
 export const combineDateAndTime = (date: Date, time: Date) => {
-	const timeString = time.getHours() + ':' + time.getMinutes() + ':00';
+  /* 	const timeString = time.getHours() + ':' + time.getMinutes() + ':00';
 
 	const year = date.getFullYear();
 	const month = date.getMonth() + 1;
 
 	const day = date.getDate();
 
-	const dateString = `${year}-${month}-${day}`;
+	const dateString = `${year}-${month}-${day}`; */
 
-	return new Date(dateString + ' ' + timeString);
+  const dateString = date.toISOString().split("T")[0];
+  const timeString = time.toISOString().split("T")[1];
+
+  return new Date(dateString + "T" + timeString);
 };
 
 export const setActivityProps = (activity: IActivity, user: IUser) => {
-	activity.date = new Date(activity.date);
-	activity.isGoing = activity.attendees.some((a) => a.username === user.userName);
-	activity.isHost = activity.attendees.some((a) => a.username === user.userName && a.isHost);
+  activity.date = new Date(activity.date);
+  activity.isGoing = activity.attendees.some(
+    (a) => a.username === user.userName
+  );
+  activity.isHost = activity.attendees.some(
+    (a) => a.username === user.userName && a.isHost
+  );
 
-	return activity;
+  return activity;
 };
 
 export const createAttendee = (user: IUser): IAttendee => {
-	return {
-		displayName: user.displayName,
-		isHost: false,
-		username: user.userName,
-		image: user.image!
-	};
+  return {
+    displayName: user.displayName,
+    isHost: false,
+    username: user.userName,
+    image: user.image!,
+  };
 };

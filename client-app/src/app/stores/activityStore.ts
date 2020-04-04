@@ -1,4 +1,11 @@
-import { observable, action, computed, runInAction, reaction } from "mobx";
+import {
+  observable,
+  action,
+  computed,
+  runInAction,
+  reaction,
+  toJS,
+} from "mobx";
 import { SyntheticEvent } from "react";
 import { IActivity } from "../models/activity";
 import agent from "../api/agent";
@@ -9,7 +16,7 @@ import { setActivityProps, createAttendee } from "../common/util/util";
 import {
   HubConnection,
   HubConnectionBuilder,
-  LogLevel
+  LogLevel,
 } from "@microsoft/signalr";
 
 const LIMIT = 2;
@@ -73,7 +80,7 @@ export default class ActivityStore {
   @action createHubConnection = (activityId: string) => {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl("http://localhost:5000/chat", {
-        accessTokenFactory: () => this.rootStore.commonStore.token!
+        accessTokenFactory: () => this.rootStore.commonStore.token!,
       })
       .configureLogging(LogLevel.Information)
       .build();
@@ -82,20 +89,19 @@ export default class ActivityStore {
       .start()
       .then(() => console.log(this.hubConnection!.state))
       .then(() => {
-        console.log("Attemping to join group");
-        this.hubConnection!.invoke("AddToGroup", activityId);
+        if (this.hubConnection!.state === "Connected") {
+          this.hubConnection!.invoke("AddToGroup", activityId);
+        }
       })
-      .catch(error =>
-        console.log("error establishing the conneciton: ", error)
-      );
+      .catch((error) => console.log("Error establishing connection: ", error));
 
-    this.hubConnection.on("RecieveComment", comment => {
+    this.hubConnection.on("RecieveComment", (comment) => {
       runInAction(() => {
         this.activity!.comments.push(comment);
       });
     });
 
-    this.hubConnection.on("Send", message => {
+    this.hubConnection.on("Send", (message) => {
       toast.info(message);
     });
   };
@@ -106,7 +112,7 @@ export default class ActivityStore {
         this.hubConnection!.stop();
       })
       .then(() => console.log("connection has stopped"))
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   @action addComment = async (values: any) => {
@@ -150,7 +156,7 @@ export default class ActivityStore {
       const { activities, activityCount } = activitiesEnvelope;
 
       runInAction("loading activities ", () => {
-        activities.forEach(activity => {
+        activities.forEach((activity) => {
           setActivityProps(activity, this.rootStore.userStore.user!);
           this.activityRegistry.set(activity.id, activity);
         });
@@ -171,7 +177,7 @@ export default class ActivityStore {
 
     if (activity) {
       this.activity = activity;
-      return activity;
+      return toJS(activity);
     } else {
       this.loadingInitial = true;
       try {
@@ -308,7 +314,7 @@ export default class ActivityStore {
       runInAction(() => {
         if (this.activity) {
           this.activity.attendees = this.activity.attendees.filter(
-            a => a.username !== this.rootStore.userStore.user!.userName
+            (a) => a.username !== this.rootStore.userStore.user!.userName
           );
 
           this.activity.isGoing = false;
