@@ -7495,11 +7495,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Diyar Faraj\\Robotia\\Persistence\\Persistence.csproj",
+      "projectUniqueName": "C:\\Users\\Diyar Faraj\\Robotia\\Persistence\\Persistence.csproj",
       "projectName": "Persistence",
-      "projectPath": "c:\\Users\\Diyar Faraj\\Robotia\\Persistence\\Persistence.csproj",
+      "projectPath": "C:\\Users\\Diyar Faraj\\Robotia\\Persistence\\Persistence.csproj",
       "packagesPath": "C:\\Users\\Diyar Faraj\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Diyar Faraj\\Robotia\\Persistence\\obj\\",
+      "outputPath": "C:\\Users\\Diyar Faraj\\Robotia\\Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -7522,8 +7522,8 @@
       "frameworks": {
         "netcoreapp3.0": {
           "projectReferences": {
-            "c:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj": {
-              "projectPath": "c:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj"
+            "C:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\Diyar Faraj\\Robotia\\Domain\\Domain.csproj"
             }
           }
         }
